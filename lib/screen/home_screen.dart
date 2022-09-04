@@ -1,6 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:learning_firebase/controller/home_controller.dart';
 import 'package:learning_firebase/screen/add_user_screen.dart';
 import 'package:learning_firebase/screen/update_user_screen.dart';
 
@@ -12,15 +13,7 @@ class HomeScreen extends StatefulWidget {
 }
 
 class _HomeScreenState extends State<HomeScreen> {
-  CollectionReference users = FirebaseFirestore.instance.collection('users');
-
-  Future<void> deleteUser(String id) {
-    return users
-        .doc(id)
-        .delete()
-        .then((value) => print("User Deleted"))
-        .catchError((error) => print("Failed to delete user: $error"));
-  }
+  HomeController controller = Get.put(HomeController());
 
   void deleteData(BuildContext context) {
     debugPrint(context.widget.key.toString());
@@ -28,14 +21,14 @@ class _HomeScreenState extends State<HomeScreen> {
 
 
   final Stream<QuerySnapshot> _usersStream =
-      FirebaseFirestore.instance.collection('users').snapshots();
+  FirebaseFirestore.instance.collection('users').snapshots();
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(title: const Text('Firebase'), actions: [
         IconButton(
-          onPressed: () => Get.to(AddUserScreen()),
+          onPressed: () => Get.to(() => AddUserScreen()),
           icon: const Icon(Icons.add),
         ),
       ]),
@@ -57,7 +50,7 @@ class _HomeScreenState extends State<HomeScreen> {
               return ListTile(
                 leading: InkWell(
                   onTap: () {
-                    Get.to(UpdateUserScreen(document.id));
+                    controller.onClickUpdate(docID: document.id, fullname: data['fullname'], lastname: data['lastname'],);
                   },
                   child: const Icon(
                     Icons.edit,
@@ -68,7 +61,7 @@ class _HomeScreenState extends State<HomeScreen> {
                 subtitle: Text(data['lastname']),
                 trailing: InkWell(
                   onTap: () {
-                    deleteUser(document.id);
+                    controller.deleteUser(document.id);
                   },
                   child: const Icon(
                     Icons.delete,

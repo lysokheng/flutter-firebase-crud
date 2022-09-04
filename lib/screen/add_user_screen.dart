@@ -1,28 +1,13 @@
 import 'package:flutter/material.dart';
-
-// Import the firebase_core and cloud_firestore plugin
-import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:learning_firebase/controller/add_user_controller.dart';
+import 'package:get/get.dart';
+import 'package:learning_firebase/screen/home_screen.dart';
 
 class AddUserScreen extends StatelessWidget {
   AddUserScreen({Key? key}) : super(key: key);
 
-  // Create a CollectionReference called users that references the firestore collection
-  CollectionReference users = FirebaseFirestore.instance.collection('users');
+  AddUserController controller = Get.put(AddUserController());
 
-  TextEditingController fullnameController = TextEditingController();
-  TextEditingController lastnameController = TextEditingController();
-
-
-  Future<void> addUser(String fullname, String lastname) {
-    // Call the user's CollectionReference to add a new user
-    return users
-        .add({
-      'fullname': fullname,
-      'lastname': lastname,
-    })
-        .then((value) => print("User Added"))
-        .catchError((error) => print("Failed to add user: $error"));
-  }
 
   @override
   Widget build(BuildContext context) {
@@ -39,7 +24,7 @@ class AddUserScreen extends StatelessWidget {
               children: [
                 Expanded(
                   child: TextFormField(
-                    controller: fullnameController,
+                    controller: controller.fullnameController,
                     decoration: const InputDecoration(
                       labelText: 'fullname',
                       focusColor: Colors.white,
@@ -54,7 +39,7 @@ class AddUserScreen extends StatelessWidget {
               children: [
                 Expanded(
                   child: TextFormField(
-                    controller: lastnameController,
+                    controller: controller.lastnameController,
                     decoration: const InputDecoration(
                       labelText: 'lastname',
                       focusColor: Colors.white,
@@ -69,14 +54,11 @@ class AddUserScreen extends StatelessWidget {
                 style: TextButton.styleFrom(
                   backgroundColor: Colors.blueAccent,
                   primary: Colors.white,
-
                 ),
 
                 child: const Text('Add'),
                 onPressed: () {
-                  addUser(fullnameController.text, lastnameController.text);
-                  fullnameController.clear();
-                  lastnameController.clear();
+                  controller.onSave();
                 },
               ),
             ),
