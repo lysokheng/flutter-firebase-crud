@@ -6,6 +6,8 @@ import 'package:learning_firebase/controller/update_user_controller.dart';
 class UpdateUserScreen extends StatelessWidget {
   UpdateUserController controller = Get.put(UpdateUserController());
 
+  UpdateUserScreen({Key? key}) : super(key: key);
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(

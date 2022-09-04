@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:learning_firebase/controller/add_user_controller.dart';
 import 'package:get/get.dart';
-import 'package:learning_firebase/screen/home_screen.dart';
 
 class AddUserScreen extends StatelessWidget {
   AddUserScreen({Key? key}) : super(key: key);

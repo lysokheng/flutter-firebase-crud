@@ -3,7 +3,6 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:learning_firebase/controller/home_controller.dart';
 import 'package:learning_firebase/screen/add_user_screen.dart';
-import 'package:learning_firebase/screen/update_user_screen.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({Key? key}) : super(key: key);
